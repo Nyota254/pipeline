@@ -31,7 +31,6 @@ jobs:
   print-world:
     docker:
       - image: circleci/node:13.8.0
-      - requires: [print-hello]
       - run:
           name: "Print world"
           command: "echo World"
