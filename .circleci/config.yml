@@ -56,11 +56,11 @@ jobs:
       - checkout
       - run:
           name: "adds hello world to file"
-          command: "echo Hello, World > output.txt"
+          command: "echo Hello, World > ~/output.txt"
       - persist_to_workspace:
-          root: /tmp/workspace
-          # paths:
-          #   - project
+          root: ~/
+          paths:
+            - output.txt
   
   print_output_file:
     docker:
@@ -69,10 +69,10 @@ jobs:
     steps:
       - checkout
       - attach_workspace:
-          at: /tmp/workspace
+          at: ~/
       - run:
           name: "reads output from file"
-          command: "cat output.txt"
+          command: "cat ~/output.txt"
 
 
 # Invoke jobs via workflows
