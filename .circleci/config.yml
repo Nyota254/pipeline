@@ -1,21 +1,21 @@
 # Use the latest 2.1 version of CircleCI pipeline process engine.
 # See: https://circleci.com/docs/2.0/configuration-reference
-version: 2.1
+# version: 2.1
 
-commands:
-  print_pipeline_id:
-    description: "A command to display circle ci work flow id"
-    parameters:
-      to:
-        type: "string"
-        default: "$CIRCLE_WORKFLOW_ID from default"
-    steps:
-      - run: echo << parameters.to >>
+# commands:
+#   print_pipeline_id:
+#     description: "A command to display circle ci work flow id"
+#     parameters:
+#       to:
+#         type: "string"
+#         default: "$CIRCLE_WORKFLOW_ID from default"
+#     steps:
+#       - run: echo << parameters.to >>
    
 
 # Define a job to be invoked later in a workflow.
 # See: https://circleci.com/docs/2.0/configuration-reference/#jobs
-jobs:
+# jobs:
   # say-hello:
     # Specify the execution environment. You can specify an image from Dockerhub or use one of our Convenience Images from CircleCI's Developer Hub.
     # See: https://circleci.com/docs/2.0/configuration-reference/#docker-machine-macos-windows-executor
@@ -86,19 +86,19 @@ jobs:
   #         command: "cat ~/output.txt"
 
 
-  pipeline_id_printer:
-    docker:
-      - image: circleci/node:13.8.0
+  # pipeline_id_printer:
+  #   docker:
+  #     - image: circleci/node:13.8.0
 
-    steps:
-      - checkout
-      - print_pipeline_id:
-          to: "$CIRCLE_WORKFLOW_ID from jobs"
+  #   steps:
+  #     - checkout
+  #     - print_pipeline_id:
+  #         to: "$CIRCLE_WORKFLOW_ID from jobs"
 
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
-workflows:
+# workflows:
   # say-hello-workflow:
   #   jobs:
   #     - say-hello
@@ -109,7 +109,30 @@ workflows:
   #         requires: [print-hello]
   #     - my-name
 
-  output-hello-world-workflow:
-    jobs:
-      - pipeline_id_printer
+  # output-hello-world-workflow:
+  #   jobs:
+  #     - pipeline_id_printer
+
+
+
+  ######################################################################################
+  # JOB FAILURES
+  ######################################################################################
+
+version: 2.1
+
+jobs:
+  print_hello_bruv:
+    docker:
+      - image: circleci/nouuouoi
+    
+    steps:
+      - checkout
+      - run:
+          command: echo Hello, bruv
+      - run:
+          command: echo failure
+          when: on_fail
+workflows:
+  - print_hello_bruv
 
