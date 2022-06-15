@@ -58,9 +58,9 @@ jobs:
           name: "adds hello world to file"
           command: "echo Hello, World > output.txt"
       - persist_to_workspace:
-          root: /tmp/dir
-          paths:
-            - project
+          root: /tmp/workspace
+          # paths:
+          #   - project
   
   print_output_file:
     docker:
@@ -69,7 +69,7 @@ jobs:
     steps:
       - checkout
       - attach_workspace:
-          at: /tmp/dir/project
+          at: /tmp/workspace
       - run:
           name: "reads output from file"
           command: "cat output.txt"
