@@ -2,6 +2,17 @@
 # See: https://circleci.com/docs/2.0/configuration-reference
 version: 2.1
 
+commands:
+  print_pipeline_id:
+    description: "A command to display circle ci work flow id"
+    parameters:
+      to:
+        type: string
+        default: "$CIRCLE_WORKFLOW_ID from default"
+    steps:
+      - run: echo << parameters.to >>
+   
+
 # Define a job to be invoked later in a workflow.
 # See: https://circleci.com/docs/2.0/configuration-reference/#jobs
 jobs:
@@ -48,31 +59,41 @@ jobs:
   #         name: "print my name from env variable"
   #         command: "echo $MY_NAME"
 
-  save_hello_world_output:
-    docker:
-      - image: circleci/node:13.8.0
+  # save_hello_world_output:
+  #   docker:
+  #     - image: circleci/node:13.8.0
     
-    steps:
-      - checkout
-      - run:
-          name: "adds hello world to file"
-          command: "echo Hello, World > ~/output.txt"
-      - persist_to_workspace:
-          root: ~/
-          paths:
-            - output.txt
+  #   steps:
+  #     - checkout
+  #     - run:
+  #         name: "adds hello world to file"
+  #         command: "echo Hello, World > ~/output.txt"
+  #     - persist_to_workspace:
+  #         root: ~/
+  #         paths:
+  #           - output.txt
   
-  print_output_file:
+  # print_output_file:
+  #   docker:
+  #     - image: circleci/node:13.8.0
+
+  #   steps:
+  #     - checkout
+  #     - attach_workspace:
+  #         at: ~/
+  #     - run:
+  #         name: "reads output from file"
+  #         command: "cat ~/output.txt"
+
+
+  pipeline_id_printer:
     docker:
       - image: circleci/node:13.8.0
 
-    steps:
-      - checkout
-      - attach_workspace:
-          at: ~/
-      - run:
-          name: "reads output from file"
-          command: "cat ~/output.txt"
+      steps:
+        - checkout
+        - print_pipeline_id:
+            to: "$CIRCLE_WORKFLOW_ID from jobs"
 
 
 # Invoke jobs via workflows
@@ -90,8 +111,5 @@ workflows:
 
   output-hello-world-workflow:
     jobs:
-      - save_hello_world_output
-      - print_output_file:
-          requires:
-            - save_hello_world_output
+      - pipeline_id_printer
 
