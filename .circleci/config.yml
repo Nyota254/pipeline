@@ -124,12 +124,12 @@ version: 2.1
 jobs:
   print_hello_bruv:
     docker:
-      - image: circleci/nouuouoi
+      - image: circleci/node:13.8.0
     
     steps:
       - checkout
       - run:
-          command: echo Hello, bruv
+          commad: echo Hello, bruv
       - run:
           command: echo failure
           when: on_fail
