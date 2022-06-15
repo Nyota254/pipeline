@@ -128,8 +128,7 @@ jobs:
     
     steps:
       - checkout
-      - run:
-          commad: echo Hello, bruv
+      - run: exit 1
       - run:
           command: echo failure
           when: on_fail
