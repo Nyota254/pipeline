@@ -134,5 +134,7 @@ jobs:
           command: echo failure
           when: on_fail
 workflows:
-  - print_hello_bruv
+  print_hello_bruv_workflow:
+    jobs:
+      - print_hello_bruv
 
